@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:technical_testv2/screens/main_screen.dart';
+import 'package:technical_testv2/screens/map.dart';
 import 'package:technical_testv2/screens/otp.dart';
 
 class RouteGenerator {
@@ -11,6 +12,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => const MainScreen());
       case '/otp_screen':
         return MaterialPageRoute(builder: (_) => const OtpScreen());
+      case '/map_screen':
+        return MaterialPageRoute(builder: (_)=>  MapScreen());
 
       default:
         return _errorRoute();

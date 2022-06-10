@@ -31,7 +31,7 @@ class MainScreen extends StatelessWidget {
     final iconDecoration = Center(
         child: SizedBox(
             height: VariatedUtils.height(context) * 0.25,
-            child: Image.asset('assets/images/signup.png')));
+            child: Image.asset('assets/images/knock.png')));
 
     final textPhoneNumber = Container(
       padding: EdgeInsets.only(
@@ -48,7 +48,7 @@ class MainScreen extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
         minWidth: VariatedUtils.width(context),
         onPressed: () {
-          Navigator.of(context).pushNamed('/otp_screen');
+          Navigator.of(context).pushReplacementNamed('/otp_screen');
         },
         child: const Text(
           "Continuar",
@@ -62,21 +62,22 @@ class MainScreen extends StatelessWidget {
     );
 
     return Scaffold(
+        backgroundColor: Colors.white,
         body: SingleChildScrollView(
-      child: Container(
-        padding: EdgeInsets.all(VariatedUtils.width(context) * 0.08),
-        child: Column(
-          children: [
-            topPart,
-            iconDecoration,
-            textPhoneNumber,
-            phoneBox,
-            VariatedUtils.personalizedSizedBox(
-                VariatedUtils.width(context) * 0.08),
-            optButton
-          ],
-        ),
-      ),
-    ));
+          child: Container(
+            padding: EdgeInsets.all(VariatedUtils.width(context) * 0.08),
+            child: Column(
+              children: [
+                topPart,
+                iconDecoration,
+                textPhoneNumber,
+                phoneBox,
+                VariatedUtils.personalizedSizedBox(
+                    VariatedUtils.width(context) * 0.08),
+                optButton
+              ],
+            ),
+          ),
+        ));
   }
 }

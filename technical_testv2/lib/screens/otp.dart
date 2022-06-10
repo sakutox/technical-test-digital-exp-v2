@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_verification_code/flutter_verification_code.dart';
 import 'package:technical_testv2/utils/utils.dart';
 
 class OtpScreen extends StatelessWidget {
@@ -7,12 +8,13 @@ class OtpScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final appBar = AppBar(
-      elevation: 0,
+        elevation: 0,
         backgroundColor: Colors.white,
         leading: InkWell(
             onTap: Navigator.of(context).pop,
             child: const Icon(
-              Icons.arrow_back, color: Colors.black,
+              Icons.arrow_back,
+              color: Colors.black,
             )),
         centerTitle: true,
         title: Text(
@@ -22,7 +24,7 @@ class OtpScreen extends StatelessWidget {
 
     final iconDecoration = Center(
         child: SizedBox(
-            height: VariatedUtils.height(context) * 0.25,
+            height: VariatedUtils.height(context) * 0.3,
             child: Image.asset('assets/images/signup.png')));
 
     final middlePartTexts = SizedBox(
@@ -35,7 +37,8 @@ class OtpScreen extends StatelessWidget {
             "Verification Code",
             style: VariatedUtils.textStyleUtil(20, Colors.black),
           ),
-          Text("We've sent you the verification code to your mobile number", textAlign: TextAlign.center,
+          Text("We've sent you the verification code to your mobile number",
+              textAlign: TextAlign.center,
               style: VariatedUtils.textStyleUtil(15, Colors.grey)),
         ],
       ),
@@ -47,7 +50,9 @@ class OtpScreen extends StatelessWidget {
       child: MaterialButton(
         padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
         minWidth: VariatedUtils.width(context),
-        onPressed: () {},
+        onPressed: () {
+          Navigator.of(context).pushReplacementNamed('/map_screen');
+        },
         child: const Text(
           "Continue",
           textAlign: TextAlign.center,
@@ -59,6 +64,9 @@ class OtpScreen extends StatelessWidget {
       ),
     );
 
+    final verificationCodeField =
+        VerificationCode(onCompleted: (String value) {}, onEditing: (bool bool) {}, length: 6, );
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: appBar,
@@ -67,7 +75,15 @@ class OtpScreen extends StatelessWidget {
           padding: EdgeInsets.all(VariatedUtils.width(context) * 0.08),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [iconDecoration, middlePartTexts, confirmOtpButton],
+            children: [
+              iconDecoration,
+              VariatedUtils.personalizedSizedBox(30),
+              middlePartTexts,
+              VariatedUtils.personalizedSizedBox(30),
+              verificationCodeField,
+              VariatedUtils.personalizedSizedBox(30),
+              confirmOtpButton,
+            ],
           ),
         ),
       ),
