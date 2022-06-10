@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:technical_testv2/provider.dart';
+import 'package:technical_testv2/providers/provider.dart';
 import 'package:technical_testv2/routes/routes.dart';
 import 'package:technical_testv2/screens/main_screen.dart';
 

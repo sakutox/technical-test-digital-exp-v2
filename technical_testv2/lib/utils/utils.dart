@@ -26,4 +26,10 @@ class VariatedUtils {
       height: height,
     );
   }
+
+  static personalizedSizedBoxWidth(double width) {
+    return SizedBox(
+      width: width,
+    );
+  }
 }
