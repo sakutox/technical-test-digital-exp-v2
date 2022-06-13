@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_verification_code/flutter_verification_code.dart';
+import 'package:provider/provider.dart';
 import 'package:technical_testv2/utils/utils.dart';
+import '../providers/provider.dart';
 
 class OtpScreen extends StatelessWidget {
-  const OtpScreen({Key? key}) : super(key: key);
+  final String phone;
+  const OtpScreen({Key? key, required this.phone}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    MyProvider provider = Provider.of<MyProvider>(context);
+    String otpCode = '';
+
     final appBar = AppBar(
         elevation: 0,
         backgroundColor: Colors.white,
@@ -51,7 +57,8 @@ class OtpScreen extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
         minWidth: VariatedUtils.width(context),
         onPressed: () {
-          Navigator.of(context).pushReplacementNamed('/map_screen');
+          provider.verifyPhoneNumberAgain(
+              provider.verificationIdUser, provider.otpCode, context);
         },
         child: const Text(
           "Continue",
@@ -64,8 +71,14 @@ class OtpScreen extends StatelessWidget {
       ),
     );
 
-    final verificationCodeField =
-        VerificationCode(onCompleted: (String value) {}, onEditing: (bool bool) {}, length: 6, );
+    final verificationCodeField = VerificationCode(
+      onCompleted: (String value) {
+        provider.otpCode = value;
+        print('value: $value, otp: $otpCode, phone: $phone');
+      },
+      onEditing: (bool bool) {},
+      length: 6,
+    );
 
     return Scaffold(
       backgroundColor: Colors.white,

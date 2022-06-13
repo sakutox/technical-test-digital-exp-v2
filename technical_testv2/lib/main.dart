@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         onGenerateRoute: RouteGenerator.generateRoute,
-        initialRoute: '/map_screen',
+        initialRoute: '/',
         title: 'Material App',
         home: const MainScreen(),
         theme: ThemeData(fontFamily: 'Montserrat'),

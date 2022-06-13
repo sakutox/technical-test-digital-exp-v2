@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geolocator/geolocator.dart';
@@ -13,8 +14,12 @@ class MyProvider with ChangeNotifier {
     target: LatLng(7.1168123, -73.1074555),
     zoom: 17,
   );
+  String verificationIdUser = '';
+  String otpCode = '';
 
   late GoogleMapController controller;
+  late FirebaseAuth auth = FirebaseAuth.instance;
+  // late FirebaseFirestore db = db.collection
 
   void myFunction() {
     number++;
@@ -44,7 +49,13 @@ class MyProvider with ChangeNotifier {
     await FirebaseAuth.instance.verifyPhoneNumber(
       phoneNumber: '+57$phoneNumber',
       verificationCompleted: (PhoneAuthCredential credential) async {
-        // await auth.signInWithCredential(credential);
+        // UserCredential userCredential =
+        //     await auth.signInWithCredential(credential);
+        // if (userCredential.user != null) {
+        //   db.collection('users').doc(userCredential.user!.uid);
+        // } else {
+        //   Fluttertoast.showToast(msg: 'error');
+        // }
         Navigator.of(context).pushReplacementNamed('/map_screen');
       },
       verificationFailed: (FirebaseAuthException e) {
@@ -55,17 +66,24 @@ class MyProvider with ChangeNotifier {
         Fluttertoast.showToast(msg: '$e');
       },
       codeSent: (String verificationId, int? resendToken) async {
-        // Update the UI - wait for the user to enter the SMS code
-        String smsCode = '123456';
-
-        // Create a PhoneAuthCredential with the code
-        PhoneAuthCredential credential = PhoneAuthProvider.credential(
-            verificationId: verificationId, smsCode: smsCode);
-
-        // Sign the user in (or link) with the credential
-        // await auth.signInWithCredential(credential);
+        verificationIdUser = verificationId;
+        Navigator.of(context)
+            .pushReplacementNamed('/otp_screen', arguments: phoneNumber);
       },
       codeAutoRetrievalTimeout: (String verificationId) {},
     );
+  }
+
+  verifyPhoneNumberAgain(
+      String verificationId, String smsCode, BuildContext context) async {
+    PhoneAuthCredential credential = PhoneAuthProvider.credential(
+        verificationId: verificationId, smsCode: smsCode);
+
+    try {
+      await auth.signInWithCredential(credential);
+      Navigator.of(context).pushReplacementNamed('/map_screen');
+    } catch (e) {
+      Fluttertoast.showToast(msg: '$e');
+    }
   }
 }

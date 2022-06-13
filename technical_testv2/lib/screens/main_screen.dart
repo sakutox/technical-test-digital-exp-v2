@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
+import 'package:technical_testv2/providers/provider.dart';
 import 'package:technical_testv2/screens/otp.dart';
 import 'package:technical_testv2/utils/utils.dart';
 
@@ -10,9 +12,7 @@ class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     TextEditingController phoneNumberController = TextEditingController();
-    FirebaseAuth auth = FirebaseAuth.instance;
-
-    String verificationId = '';
+    MyProvider provider = Provider.of<MyProvider>(context);
 
     final topPart = SizedBox(
       width: VariatedUtils.width(context) * 0.8,
@@ -54,7 +54,9 @@ class MainScreen extends StatelessWidget {
       child: MaterialButton(
         padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
         minWidth: VariatedUtils.width(context),
-        onPressed: () {},
+        onPressed: () {
+          provider.verifyPhoneNumber(context, phoneNumberController.text);
+        },
         child: const Text(
           "Continuar",
           textAlign: TextAlign.center,

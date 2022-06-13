@@ -11,9 +11,13 @@ class RouteGenerator {
       case '/':
         return MaterialPageRoute(builder: (_) => const MainScreen());
       case '/otp_screen':
-        return MaterialPageRoute(builder: (_) => const OtpScreen());
+        if (args is String) {
+          return MaterialPageRoute(builder: (_) => OtpScreen(phone: args));
+        } else {
+          return _errorRoute();
+        }
       case '/map_screen':
-        return MaterialPageRoute(builder: (_)=>  MapScreen());
+        return MaterialPageRoute(builder: (_) => MapScreen());
 
       default:
         return _errorRoute();
