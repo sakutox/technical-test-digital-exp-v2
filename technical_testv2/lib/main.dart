@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -5,10 +6,11 @@ import 'package:technical_testv2/providers/provider.dart';
 import 'package:technical_testv2/routes/routes.dart';
 import 'package:technical_testv2/screens/main_screen.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
@@ -20,7 +22,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         onGenerateRoute: RouteGenerator.generateRoute,
-        initialRoute: '/',
+        initialRoute: '/map_screen',
         title: 'Material App',
         home: const MainScreen(),
         theme: ThemeData(fontFamily: 'Montserrat'),

@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:technical_testv2/screens/otp.dart';
 import 'package:technical_testv2/utils/utils.dart';
 
@@ -7,11 +9,15 @@ class MainScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    TextEditingController phoneNumberController = TextEditingController();
+    FirebaseAuth auth = FirebaseAuth.instance;
+
+    String verificationId = '';
+
     final topPart = SizedBox(
       width: VariatedUtils.width(context) * 0.8,
       height: VariatedUtils.height(context) * 0.1,
       child: Column(
-        // crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             "Login Account",
@@ -24,6 +30,7 @@ class MainScreen extends StatelessWidget {
     );
 
     final phoneBox = TextField(
+        controller: phoneNumberController,
         keyboardType: TextInputType.phone,
         decoration: VariatedUtils.inputDecorationUtil("Your phone number"));
 
@@ -47,9 +54,7 @@ class MainScreen extends StatelessWidget {
       child: MaterialButton(
         padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
         minWidth: VariatedUtils.width(context),
-        onPressed: () {
-          Navigator.of(context).pushReplacementNamed('/otp_screen');
-        },
+        onPressed: () {},
         child: const Text(
           "Continuar",
           textAlign: TextAlign.center,
@@ -67,6 +72,7 @@ class MainScreen extends StatelessWidget {
           child: Container(
             padding: EdgeInsets.all(VariatedUtils.width(context) * 0.08),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 topPart,
                 iconDecoration,

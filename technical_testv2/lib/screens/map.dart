@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
 import 'package:technical_testv2/providers/provider.dart';
@@ -8,26 +10,19 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class MapScreen extends StatelessWidget {
   MapScreen({Key? key}) : super(key: key);
-  Completer<GoogleMapController> _controller = Completer();
-
-  static CameraPosition cameraFocus = const CameraPosition(
-    target: LatLng(7.113246, -73.107494),
-    zoom: 14.4746,
-  );
+  TextEditingController addressController = TextEditingController();
 
   buildMap(BuildContext context, MyProvider provider) {
     return GoogleMap(
         mapType: MapType.normal,
-        initialCameraPosition: cameraFocus,
+        initialCameraPosition: provider.cameraFocus,
         onMapCreated: (GoogleMapController controller) {
-          _controller.complete(controller);
+          provider.controller = controller;
         },
-        markers: {provider.location}
-        // {const Marker(markerId: MarkerId('current location'), position: LatLng(provider.location.latitude, provider.location.latitude));},
-        );
+        markers: {provider.location});
   }
 
-  searchBar(BuildContext context) {
+  searchBar(BuildContext context, MyProvider provider) {
     return Container(
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(50),
@@ -44,32 +39,46 @@ class MapScreen extends StatelessWidget {
           // ignore: prefer_const_literals_to_create_immutables
           children: [
             VariatedUtils.personalizedSizedBoxWidth(5),
-            const Flexible(
+            Flexible(
               flex: 200,
               child: TextField(
+                controller: addressController,
                 keyboardType: TextInputType.streetAddress,
-                decoration: InputDecoration(border: InputBorder.none),
+                decoration: const InputDecoration(border: InputBorder.none),
               ),
             ),
-            const Flexible(
+            Flexible(
                 flex: 20,
                 child: InkWell(
-                  child: Icon(
+                  onTap: () async {
+                    try {
+                      List<Location> locations = await locationFromAddress(
+                          '${addressController.text} Bucaramanga, Santander');
+
+                      Position position = Position(
+                          longitude: locations[0].longitude,
+                          latitude: locations[0].latitude,
+                          timestamp: DateTime.now(),
+                          accuracy: 0,
+                          altitude: 0,
+                          heading: 0,
+                          speed: 0,
+                          speedAccuracy: 0);
+
+                      provider.getLocation(position);
+
+                      provider.changeCameraFocus(position);
+                    } catch (e) {
+                      Fluttertoast.showToast(msg: '$e');
+                    }
+                  },
+                  child: const Icon(
                     Icons.search,
                     color: Colors.grey,
                   ),
                 ))
           ],
         ));
-  }
-
-  Future<Marker> showMarker() async {
-    return Marker(
-        markerId: const MarkerId('1'),
-        position: const LatLng(7.113246, -73.107494),
-        icon: await BitmapDescriptor.fromAssetImage(
-            const ImageConfiguration(size: Size(48, 48)),
-            'assets/images/pin.png'));
   }
 
   _determinePosition(MyProvider provider) async {
@@ -96,6 +105,7 @@ class MapScreen extends StatelessWidget {
 
     try {
       provider.getLocation(await Geolocator.getCurrentPosition());
+      provider.changeCameraFocus(await Geolocator.getCurrentPosition());
     } catch (e) {
       print(e);
     }
@@ -118,7 +128,7 @@ class MapScreen extends StatelessWidget {
             children: [
               buildMap(context, provider),
               Column(
-                children: [searchBar(context)],
+                children: [searchBar(context, provider)],
               )
             ],
           ),
