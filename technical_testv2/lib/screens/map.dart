@@ -8,6 +8,7 @@ import 'package:technical_testv2/providers/provider.dart';
 import 'package:technical_testv2/utils/utils.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+// ignore: must_be_immutable
 class MapScreen extends StatelessWidget {
   MapScreen({Key? key}) : super(key: key);
   TextEditingController addressController = TextEditingController();
@@ -107,7 +108,7 @@ class MapScreen extends StatelessWidget {
       provider.getLocation(await Geolocator.getCurrentPosition());
       provider.changeCameraFocus(await Geolocator.getCurrentPosition());
     } catch (e) {
-      print(e);
+      Fluttertoast.showToast(msg: '$e');
     }
   }
 

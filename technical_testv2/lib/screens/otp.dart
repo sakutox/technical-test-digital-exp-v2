@@ -11,7 +11,6 @@ class OtpScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     MyProvider provider = Provider.of<MyProvider>(context);
-    String otpCode = '';
 
     final appBar = AppBar(
         elevation: 0,
@@ -39,7 +38,6 @@ class OtpScreen extends StatelessWidget {
       width: VariatedUtils.width(context) * 0.8,
       height: VariatedUtils.height(context) * 0.1,
       child: Column(
-        // crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             "Verification Code",

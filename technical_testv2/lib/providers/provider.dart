@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geolocator/geolocator.dart';
@@ -19,7 +18,6 @@ class MyProvider with ChangeNotifier {
 
   late GoogleMapController controller;
   late FirebaseAuth auth = FirebaseAuth.instance;
-  // late FirebaseFirestore db = db.collection
 
   void myFunction() {
     number++;
@@ -49,13 +47,6 @@ class MyProvider with ChangeNotifier {
     await FirebaseAuth.instance.verifyPhoneNumber(
       phoneNumber: '+57$phoneNumber',
       verificationCompleted: (PhoneAuthCredential credential) async {
-        // UserCredential userCredential =
-        //     await auth.signInWithCredential(credential);
-        // if (userCredential.user != null) {
-        //   db.collection('users').doc(userCredential.user!.uid);
-        // } else {
-        //   Fluttertoast.showToast(msg: 'error');
-        // }
         Navigator.of(context).pushReplacementNamed('/map_screen');
       },
       verificationFailed: (FirebaseAuthException e) {
@@ -81,6 +72,7 @@ class MyProvider with ChangeNotifier {
 
     try {
       await auth.signInWithCredential(credential);
+      // ignore: use_build_context_synchronously
       Navigator.of(context).pushReplacementNamed('/map_screen');
     } catch (e) {
       Fluttertoast.showToast(msg: '$e');
