@@ -30,6 +30,7 @@ class MainScreen extends StatelessWidget {
     );
 
     final phoneBox = TextField(
+        textAlign: TextAlign.center,
         controller: phoneNumberController,
         keyboardType: TextInputType.phone,
         decoration: VariatedUtils.inputDecorationUtil("Your phone number"));
@@ -55,7 +56,10 @@ class MainScreen extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
         minWidth: VariatedUtils.width(context),
         onPressed: () {
-          provider.verifyPhoneNumber(context, phoneNumberController.text);
+          if (VariatedUtils.integerLengthVerification(
+              phoneNumberController.text, 10)) {
+            provider.verifyPhoneNumber(context, phoneNumberController.text);
+          }
         },
         child: const Text(
           "Continuar",

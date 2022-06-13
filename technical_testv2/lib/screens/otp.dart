@@ -17,7 +17,9 @@ class OtpScreen extends StatelessWidget {
         elevation: 0,
         backgroundColor: Colors.white,
         leading: InkWell(
-            onTap: Navigator.of(context).pop,
+            onTap: () {
+              Navigator.of(context).pushReplacementNamed('/');
+            },
             child: const Icon(
               Icons.arrow_back,
               color: Colors.black,
@@ -73,8 +75,9 @@ class OtpScreen extends StatelessWidget {
 
     final verificationCodeField = VerificationCode(
       onCompleted: (String value) {
-        provider.otpCode = value;
-        print('value: $value, otp: $otpCode, phone: $phone');
+        if (VariatedUtils.integerLengthVerification(value, 6)) {
+          provider.otpCode = value;
+        }
       },
       onEditing: (bool bool) {},
       length: 6,
