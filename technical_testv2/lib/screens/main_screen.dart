@@ -1,9 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:technical_testv2/providers/provider.dart';
-import 'package:technical_testv2/screens/otp.dart';
 import 'package:technical_testv2/utils/utils.dart';
 
 class MainScreen extends StatelessWidget {
@@ -74,20 +71,22 @@ class MainScreen extends StatelessWidget {
 
     return Scaffold(
         backgroundColor: Colors.white,
-        body: SingleChildScrollView(
-          child: Container(
-            padding: EdgeInsets.all(VariatedUtils.width(context) * 0.08),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                topPart,
-                iconDecoration,
-                textPhoneNumber,
-                phoneBox,
-                VariatedUtils.personalizedSizedBox(
-                    VariatedUtils.width(context) * 0.08),
-                optButton
-              ],
+        body: SafeArea(
+          child: SingleChildScrollView(
+            child: Container(
+              padding: EdgeInsets.all(VariatedUtils.width(context) * 0.08),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  topPart,
+                  iconDecoration,
+                  textPhoneNumber,
+                  phoneBox,
+                  VariatedUtils.personalizedSizedBox(
+                      VariatedUtils.width(context) * 0.08),
+                  optButton
+                ],
+              ),
             ),
           ),
         ));

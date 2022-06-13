@@ -86,20 +86,22 @@ class OtpScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: appBar,
-      body: SingleChildScrollView(
-        child: Container(
-          padding: EdgeInsets.all(VariatedUtils.width(context) * 0.08),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              iconDecoration,
-              VariatedUtils.personalizedSizedBox(30),
-              middlePartTexts,
-              VariatedUtils.personalizedSizedBox(30),
-              verificationCodeField,
-              VariatedUtils.personalizedSizedBox(30),
-              confirmOtpButton,
-            ],
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Container(
+            padding: EdgeInsets.all(VariatedUtils.width(context) * 0.08),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                iconDecoration,
+                VariatedUtils.personalizedSizedBox(30),
+                middlePartTexts,
+                VariatedUtils.personalizedSizedBox(30),
+                verificationCodeField,
+                VariatedUtils.personalizedSizedBox(30),
+                confirmOtpButton,
+              ],
+            ),
           ),
         ),
       ),
