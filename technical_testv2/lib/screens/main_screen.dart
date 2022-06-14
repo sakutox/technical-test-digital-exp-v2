@@ -30,7 +30,7 @@ class MainScreen extends StatelessWidget {
         textAlign: TextAlign.center,
         controller: phoneNumberController,
         keyboardType: TextInputType.phone,
-        decoration: VariatedUtils.inputDecorationUtil("Your phone number"));
+        decoration: VariatedUtils.inputDecorationUtil("Phone number"));
 
     // ignore: sized_box_for_whitespace
     final iconDecoration = Center(

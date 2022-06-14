@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:technical_testv2/screens/main_screen.dart';
 import 'package:technical_testv2/screens/map.dart';
 import 'package:technical_testv2/screens/otp.dart';
+import 'package:technical_testv2/screens/register.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -18,6 +19,12 @@ class RouteGenerator {
         }
       case '/map_screen':
         return MaterialPageRoute(builder: (_) => MapScreen());
+      case '/register':
+        if (args is String) {
+          return MaterialPageRoute(builder: (_) => Register(phone: args));
+        } else {
+          return _errorRoute();
+        }
 
       default:
         return _errorRoute();
