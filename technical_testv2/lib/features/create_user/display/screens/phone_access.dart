@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:technical_testv2/features/create_user/display/providers/create_user_provider.dart';
-import 'package:technical_testv2/providers/provider.dart';
 import 'package:technical_testv2/utils/utils.dart';
 
-class MainScreen extends StatefulWidget {
-  const MainScreen({Key? key}) : super(key: key);
+class PhoneAccess extends StatefulWidget {
+  const PhoneAccess({Key? key}) : super(key: key);
 
   @override
-  State<MainScreen> createState() => _MainScreenState();
+  State<PhoneAccess> createState() => _PhoneAccessState();
 }
 
-class _MainScreenState extends State<MainScreen> {
+class _PhoneAccessState extends State<PhoneAccess> {
   TextEditingController phoneNumberController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    CreateUserProvider provider = Provider.of<CreateUserProvider>(context);
+    CreateUserProvider createUserProvider =
+        Provider.of<CreateUserProvider>(context);
 
     final topPart = SizedBox(
       width: VariatedUtils.width(context) * 0.8,
@@ -24,7 +24,7 @@ class _MainScreenState extends State<MainScreen> {
       child: Column(
         children: [
           Text(
-            "Login Account",
+            "Phone access",
             style: VariatedUtils.textStyleUtil(20, Colors.black),
           ),
           Text("Hello, Welcome back again",
@@ -62,9 +62,9 @@ class _MainScreenState extends State<MainScreen> {
         onPressed: () {
           if (VariatedUtils.integerLengthVerification(
               phoneNumberController.text, 10)) {
-            provider.verifyPhoneNumberProviderFunction(
+            createUserProvider.verifyPhoneNumberProviderFunction(
                 phoneNumber: phoneNumberController.text,
-                createUserProvider: provider);
+                createUserProvider: createUserProvider);
           }
         },
         child: const Text(

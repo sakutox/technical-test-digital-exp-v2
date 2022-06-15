@@ -7,7 +7,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:technical_testv2/models/user_firebase.dart';
 
 class MyProvider with ChangeNotifier {
-  int number = 0;
   Marker location = const Marker(
       markerId: MarkerId('xd'), position: LatLng(7.1168123, -73.1074555));
 
@@ -15,6 +14,7 @@ class MyProvider with ChangeNotifier {
     target: LatLng(7.1168123, -73.1074555),
     zoom: 17,
   );
+
   String verificationIdUser = '';
   String otpCode = '';
   FirebaseFirestore db = FirebaseFirestore.instance;
@@ -22,11 +22,6 @@ class MyProvider with ChangeNotifier {
   late GoogleMapController controller;
   late FirebaseAuth auth = FirebaseAuth.instance;
   UserFirebase userProvider = UserFirebase();
-
-  void myFunction() {
-    number++;
-    notifyListeners();
-  }
 
   void getLocation(Position location2) {
     location = Marker(
@@ -80,6 +75,7 @@ class MyProvider with ChangeNotifier {
 
   verifyPhoneNumberAgain(String verificationId, String smsCode,
       BuildContext context, String phoneNumber) async {
+        
     PhoneAuthCredential credential = PhoneAuthProvider.credential(
         verificationId: verificationId, smsCode: smsCode);
 

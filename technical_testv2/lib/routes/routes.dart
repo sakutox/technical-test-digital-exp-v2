@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:technical_testv2/features/create_user/display/screens/phone_access.dart';
 import 'package:technical_testv2/screens/main_screen.dart';
 import 'package:technical_testv2/screens/map.dart';
 import 'package:technical_testv2/screens/otp.dart';
@@ -25,6 +26,8 @@ class RouteGenerator {
         } else {
           return _errorRoute();
         }
+      case '/phone_access':
+        return MaterialPageRoute(builder: (_) => const PhoneAccess());
 
       default:
         return _errorRoute();

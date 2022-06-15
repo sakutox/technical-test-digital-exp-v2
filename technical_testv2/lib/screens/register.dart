@@ -1,19 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:technical_testv2/models/user_firebase.dart';
-
 import '../providers/provider.dart';
 import '../utils/utils.dart';
 
-class Register extends StatelessWidget {
+class Register extends StatefulWidget {
   final String phone;
   const Register({Key? key, required this.phone}) : super(key: key);
 
   @override
+  State<Register> createState() => _RegisterState();
+}
+
+class _RegisterState extends State<Register> {
+  TextEditingController nameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+
+  @override
   Widget build(BuildContext context) {
     MyProvider provider = Provider.of<MyProvider>(context);
-    TextEditingController nameController = TextEditingController();
-    TextEditingController emailController = TextEditingController();
 
     final appBar = AppBar(
         elevation: 0,
@@ -70,12 +74,15 @@ class Register extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
         minWidth: VariatedUtils.width(context),
         onPressed: () {
-          
-          provider.userProvider.email = emailController.text;
-          provider.userProvider.phone = phone;
-          provider.userProvider.name = nameController.text;
+          if (VariatedUtils.emailVerification(emailController.text) &&
+              VariatedUtils.nameVerification(nameController.text) &&
+              nameController.text.isNotEmpty) {
+            provider.userProvider.email = emailController.text;
+            provider.userProvider.phone = widget.phone;
+            provider.userProvider.name = nameController.text;
 
-          provider.userProvider.createUser(provider.userProvider, context);
+            provider.userProvider.createUser(provider.userProvider, context);
+          } else {}
         },
         child: const Text(
           "Register",
