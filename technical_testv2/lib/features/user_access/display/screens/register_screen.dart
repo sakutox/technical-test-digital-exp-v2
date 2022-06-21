@@ -82,7 +82,8 @@ class _RegisterState extends State<RegisterScreen> {
                 nameController.text,
                 emailController.text,
                 widget.phone,
-                provider.userUid);
+                provider.userUid,
+                context);
           } else {}
         },
         child: const Text(

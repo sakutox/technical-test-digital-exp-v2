@@ -1,6 +1,4 @@
 import 'dart:developer';
-import 'package:dartz/dartz.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:technical_testv2/features/user_access/data/datasources/remote_datasource.dart';
@@ -39,8 +37,8 @@ class UserAccessProvider with ChangeNotifier {
     }
   }
 
-  Future<bool> createUser(
-      String name, String email, String phone, String uid) async {
+  Future<bool> createUser(String name, String email, String phone, String uid,
+      BuildContext context) async {
     CreateUserInfoRepositoryImpl repository =
         CreateUserInfoRepositoryImpl(RemoteDataSourceImpl());
 
@@ -54,11 +52,14 @@ class UserAccessProvider with ChangeNotifier {
           await CreateUserInfo(createUserRepository: repository).call(user);
 
       if (userCreated is UserModel) {
+        // ignore: use_build_context_synchronously
+        Navigator.of(context).pushReplacementNamed('/');
         return userCreation = true;
       } else {
         return userCreation;
       }
     } catch (e) {
+      Fluttertoast.showToast(msg: 'error on create user provider: $e');
       return userCreation;
     }
   }
