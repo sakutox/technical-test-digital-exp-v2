@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:technical_testv2/features/create_user/display/screens/phone_access.dart';
+import 'package:technical_testv2/features/user_access/display/screens/phone_access.dart';
 import 'package:technical_testv2/screens/main_screen.dart';
 import 'package:technical_testv2/screens/map.dart';
 import 'package:technical_testv2/screens/otp.dart';

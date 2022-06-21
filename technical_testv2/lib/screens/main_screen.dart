@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:technical_testv2/features/create_user/display/providers/create_user_provider.dart';
-import 'package:technical_testv2/providers/provider.dart';
+import 'package:technical_testv2/features/user_access/display/providers/user_access_provider.dart';
 import 'package:technical_testv2/utils/utils.dart';
 
 class MainScreen extends StatefulWidget {
@@ -16,7 +15,7 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    CreateUserProvider provider = Provider.of<CreateUserProvider>(context);
+    UserAccessProvider provider = Provider.of<UserAccessProvider>(context);
 
     final topPart = SizedBox(
       width: VariatedUtils.width(context) * 0.8,
@@ -64,7 +63,7 @@ class _MainScreenState extends State<MainScreen> {
               phoneNumberController.text, 10)) {
             provider.verifyPhoneNumberProviderFunction(
                 phoneNumber: phoneNumberController.text,
-                createUserProvider: provider);
+                userAccessProvider: provider);
           }
         },
         child: const Text(

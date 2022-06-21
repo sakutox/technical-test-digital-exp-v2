@@ -2,15 +2,14 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:provider/provider.dart';
 import 'package:technical_testv2/core/firebase_config/firebase_initialize_app.dart';
-import 'package:technical_testv2/features/create_user/display/providers/create_user_provider.dart';
+import 'package:technical_testv2/features/user_access/display/providers/user_access_provider.dart';
 import '../models/user_model.dart';
 
 abstract class RemoteDataSource {
   Future<void> createUser(UserModel user);
   Future<void> verifyPhoneNumber(
-      String phoneNumber, CreateUserProvider provider);
+      String phoneNumber, UserAccessProvider userAccessProvider);
 }
 
 class RemoteDataSourceImpl implements RemoteDataSource {
@@ -24,7 +23,7 @@ class RemoteDataSourceImpl implements RemoteDataSource {
 
   @override
   Future<void> verifyPhoneNumber(
-      String phoneNumber, CreateUserProvider createUserProvider) async {
+      String phoneNumber, UserAccessProvider userAccessProvider) async {
     await FirebaseAuth.instance.verifyPhoneNumber(
       phoneNumber: '+57$phoneNumber',
       verificationCompleted: (PhoneAuthCredential credential) async {
@@ -32,8 +31,9 @@ class RemoteDataSourceImpl implements RemoteDataSource {
           UserCredential userCredential =
               await FirebaseConfig.auth.signInWithCredential(credential);
 
-          createUserProvider.verifyPhoneChecker =
+          userAccessProvider.verifyPhoneChecker =
               await userCreatedVerification(userCredential, phoneNumber);
+              
         } catch (e) {
           log('$e');
         }
@@ -49,6 +49,7 @@ class RemoteDataSourceImpl implements RemoteDataSource {
   Future<bool> verifyPhoneNumberManualValidation(
       String verificationId, String smsCode, String phoneNumber) async {
     bool statusForProviderConfirmation = false;
+
     PhoneAuthCredential credential = PhoneAuthProvider.credential(
         verificationId: verificationId, smsCode: smsCode);
 
