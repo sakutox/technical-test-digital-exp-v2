@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:technical_testv2/features/user_access/display/screens/phone_access.dart';
+import 'package:technical_testv2/features/user_access/display/screens/register_screen.dart';
 import 'package:technical_testv2/screens/main_screen.dart';
 import 'package:technical_testv2/screens/map.dart';
 import 'package:technical_testv2/screens/otp.dart';
 import 'package:technical_testv2/screens/register.dart';
+
+import '../features/user_access/display/screens/otp_screen.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -14,7 +17,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => const MainScreen());
       case '/otp_screen':
         if (args is String) {
-          return MaterialPageRoute(builder: (_) => OtpScreen(phone: args));
+          return MaterialPageRoute(
+              builder: (_) => OtpScreenCleanArquitecture(phone: args));
         } else {
           return _errorRoute();
         }
@@ -28,6 +32,12 @@ class RouteGenerator {
         }
       case '/phone_access':
         return MaterialPageRoute(builder: (_) => const PhoneAccess());
+      case '/register_screen':
+        if (args is String) {
+          return MaterialPageRoute(builder: (_) => RegisterScreen(phone: args));
+        } else {
+          return _errorRoute();
+        }
 
       default:
         return _errorRoute();

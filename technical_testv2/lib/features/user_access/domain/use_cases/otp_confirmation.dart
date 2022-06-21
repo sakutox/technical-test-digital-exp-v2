@@ -8,8 +8,8 @@ class OtpConfirmation {
 
   OtpConfirmation({required this.otpConfirmationRepository});
 
-  Future<Either<UserCredential, Map<String, dynamic>>> call(
-      String phoneNumber, UserAccessProvider userAccessProvider,  String otpSms,) async {
-    return otpConfirmationRepository.otpConfirmation(phoneNumber, otpSms, userAccessProvider);
+  Future<bool> call(
+      String phoneNumber, UserAccessProvider userAccessProvider,  String otpSms, String verificationId) async {
+    return otpConfirmationRepository.otpConfirmation(phoneNumber, otpSms, userAccessProvider, verificationId);
   }
 }

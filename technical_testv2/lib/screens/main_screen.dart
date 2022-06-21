@@ -61,9 +61,9 @@ class _MainScreenState extends State<MainScreen> {
         onPressed: () {
           if (VariatedUtils.integerLengthVerification(
               phoneNumberController.text, 10)) {
-            provider.verifyPhoneNumberProviderFunction(
-                phoneNumber: phoneNumberController.text,
-                userAccessProvider: provider);
+            // provider.verifyPhoneNumberProviderFunction(
+            //     phoneNumber: phoneNumberController.text,
+            //     userAccessProvider: provider);
           }
         },
         child: const Text(

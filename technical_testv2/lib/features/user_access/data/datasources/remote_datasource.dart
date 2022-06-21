@@ -7,18 +7,30 @@ import 'package:technical_testv2/features/user_access/display/providers/user_acc
 import '../models/user_model.dart';
 
 abstract class RemoteDataSource {
-  Future<void> createUser(UserModel user);
+  Future<bool> createUser(UserModel user);
   Future<void> verifyPhoneNumber(
       String phoneNumber, UserAccessProvider userAccessProvider);
+  Future<bool> verifyPhoneNumberManualValidation(
+      String verificationId,
+      String smsCode,
+      String phoneNumber,
+      UserAccessProvider userAccessProvider);
 }
 
 class RemoteDataSourceImpl implements RemoteDataSource {
   @override
-  Future<void> createUser(UserModel user) async {
-    Future<UserModel> userModel;
+  Future<bool> createUser(UserModel user) async {
+    bool status = false;
     try {
-      final response = FirebaseConfig.db.doc(user.uid).set(user.toJson());
-    } catch (e) {}
+      Map<String, dynamic> map = user.toMap();
+
+      final response =
+          FirebaseConfig.db.collection('users').doc(user.uid).set(map);
+      return status = true;
+    } catch (e) {
+      log('$e');
+      return status;
+    }
   }
 
   @override
@@ -31,9 +43,8 @@ class RemoteDataSourceImpl implements RemoteDataSource {
           UserCredential userCredential =
               await FirebaseConfig.auth.signInWithCredential(credential);
 
-          userAccessProvider.verifyPhoneChecker =
-              await userCreatedVerification(userCredential, phoneNumber);
-              
+          userAccessProvider.verifyPhoneChecker = await userCreatedVerification(
+              userCredential, phoneNumber, userAccessProvider);
         } catch (e) {
           log('$e');
         }
@@ -41,13 +52,20 @@ class RemoteDataSourceImpl implements RemoteDataSource {
       verificationFailed: (FirebaseAuthException e) {
         if (e.code == 'invalid-phone-number') {}
       },
-      codeSent: (String verificationId, int? resendToken) async {},
+      codeSent: (String verificationId, int? resendToken) async {
+        userAccessProvider.verificationId = verificationId;
+        print('verificationID: ${userAccessProvider.verificationId}');
+      },
       codeAutoRetrievalTimeout: (String verificationId) {},
     );
   }
 
+  @override
   Future<bool> verifyPhoneNumberManualValidation(
-      String verificationId, String smsCode, String phoneNumber) async {
+      String verificationId,
+      String smsCode,
+      String phoneNumber,
+      UserAccessProvider userAccessProvider) async {
     bool statusForProviderConfirmation = false;
 
     PhoneAuthCredential credential = PhoneAuthProvider.credential(
@@ -58,27 +76,31 @@ class RemoteDataSourceImpl implements RemoteDataSource {
           await FirebaseConfig.auth.signInWithCredential(credential);
 
       // ignore: use_build_context_synchronously
-      statusForProviderConfirmation =
-          await userCreatedVerification(userCredential, phoneNumber);
-    } catch (e) {}
+      statusForProviderConfirmation = await userCreatedVerification(
+          userCredential, phoneNumber, userAccessProvider);
+    } catch (e) {
+      log('error on remote datasource verify number function: $e');
+    }
 
     return statusForProviderConfirmation;
   }
 
-  Future<bool> userCreatedVerification(
-      UserCredential userCredential, String phoneNumber) async {
+  Future<bool> userCreatedVerification(UserCredential userCredential,
+      String phoneNumber, UserAccessProvider userAccessProvider) async {
     bool userCreatedStatus = false;
+
     if (userCredential.user != null) {
       DocumentSnapshot snapshot = await FirebaseConfig.db
           .collection('users')
           .doc(userCredential.user!.uid)
           .get();
 
+      userAccessProvider.userUid = userCredential.user!.uid;
+
       if (snapshot.exists) {
         userCreatedStatus = true;
       }
     }
-
     return userCreatedStatus;
   }
 }

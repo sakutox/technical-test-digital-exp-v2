@@ -1,18 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_verification_code/flutter_verification_code.dart';
 import 'package:provider/provider.dart';
 import 'package:technical_testv2/features/user_access/display/providers/user_access_provider.dart';
-import 'package:technical_testv2/utils/utils.dart';
+import '../../../../utils/utils.dart';
 
-class OtpScreenCleanArquitecture extends StatelessWidget {
+class RegisterScreen extends StatefulWidget {
   final String phone;
-  const OtpScreenCleanArquitecture({Key? key, required this.phone})
-      : super(key: key);
+  const RegisterScreen({Key? key, required this.phone}) : super(key: key);
+
+  @override
+  State<RegisterScreen> createState() => _RegisterState();
+}
+
+class _RegisterState extends State<RegisterScreen> {
+  TextEditingController nameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  bool flagToKnowIfUserWasCreated = false;
 
   @override
   Widget build(BuildContext context) {
-    UserAccessProvider userAccessProvider =
-        Provider.of<UserAccessProvider>(context);
+    UserAccessProvider provider = Provider.of<UserAccessProvider>(context);
 
     final appBar = AppBar(
         elevation: 0,
@@ -27,14 +33,14 @@ class OtpScreenCleanArquitecture extends StatelessWidget {
             )),
         centerTitle: true,
         title: Text(
-          'OTP',
+          'Register',
           style: VariatedUtils.textStyleUtil(20, Colors.black),
         ));
 
     final imageDecoration = Center(
         child: SizedBox(
             height: VariatedUtils.height(context) * 0.3,
-            child: Image.asset('assets/images/signup.png')));
+            child: Image.asset('assets/images/resume.png')));
 
     final middlePartTexts = SizedBox(
       width: VariatedUtils.width(context) * 0.8,
@@ -42,32 +48,45 @@ class OtpScreenCleanArquitecture extends StatelessWidget {
       child: Column(
         children: [
           Text(
-            "Verification Code",
+            "Create a new account",
             style: VariatedUtils.textStyleUtil(20, Colors.black),
           ),
-          Text("We've sent you the verification code to your mobile number",
+          Text(
+              "Welcome to the register page in this section you'll find the necesary data to create an account with us",
               textAlign: TextAlign.center,
               style: VariatedUtils.textStyleUtil(15, Colors.grey)),
         ],
       ),
     );
 
-    final confirmOtpButton = Material(
+    TextField textFieldGenerator(
+        TextEditingController controller, String textFieldLabel) {
+      return TextField(
+          textAlign: TextAlign.center,
+          controller: controller,
+          keyboardType: TextInputType.name,
+          decoration: VariatedUtils.inputDecorationUtil(textFieldLabel));
+    }
+
+    final confirmRegistration = Material(
       borderRadius: BorderRadius.circular(50),
       color: const Color(0xffa1cfc2),
       child: MaterialButton(
         padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
         minWidth: VariatedUtils.width(context),
-        onPressed: () {
-          userAccessProvider.verifyOtpManually(
-              userAccessProvider.verificationId,
-              phone,
-              userAccessProvider.otpCode,
-              userAccessProvider,
-              context);
+        onPressed: () async {
+          if (VariatedUtils.emailVerification(emailController.text) &&
+              VariatedUtils.nameVerification(nameController.text) &&
+              nameController.text.isNotEmpty) {
+            flagToKnowIfUserWasCreated = await provider.createUser(
+                nameController.text,
+                emailController.text,
+                widget.phone,
+                provider.userUid);
+          } else {}
         },
         child: const Text(
-          "Continue",
+          "Register",
           textAlign: TextAlign.center,
           style: TextStyle(
               fontSize: 20,
@@ -77,21 +96,11 @@ class OtpScreenCleanArquitecture extends StatelessWidget {
       ),
     );
 
-    final verificationCodeField = VerificationCode(
-      onCompleted: (String value) {
-        if (VariatedUtils.integerLengthVerification(value, 6)) {
-          userAccessProvider.otpCode = value;
-        }
-      },
-      onEditing: (bool bool) {},
-      length: 6,
-    );
-
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: appBar,
-      body: SafeArea(
-        child: SingleChildScrollView(
+        appBar: appBar,
+        backgroundColor: Colors.white,
+        body: SafeArea(
+            child: SingleChildScrollView(
           child: Container(
             padding: EdgeInsets.all(VariatedUtils.width(context) * 0.08),
             child: Column(
@@ -101,14 +110,14 @@ class OtpScreenCleanArquitecture extends StatelessWidget {
                 VariatedUtils.personalizedSizedBox(30),
                 middlePartTexts,
                 VariatedUtils.personalizedSizedBox(30),
-                verificationCodeField,
+                textFieldGenerator(nameController, 'Name'),
+                VariatedUtils.personalizedSizedBox(15),
+                textFieldGenerator(emailController, 'Email'),
                 VariatedUtils.personalizedSizedBox(30),
-                confirmOtpButton,
+                confirmRegistration,
               ],
             ),
           ),
-        ),
-      ),
-    );
+        )));
   }
 }
