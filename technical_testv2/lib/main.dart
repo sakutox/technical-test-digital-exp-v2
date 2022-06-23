@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:technical_testv2/core/firebase_config/firebase_initialize_app.dart';
+import 'package:technical_testv2/features/map/display/providers/map_provider.dart';
 import 'package:technical_testv2/features/user_access/display/providers/user_access_provider.dart';
 import 'package:technical_testv2/routes/routes.dart';
 import 'package:technical_testv2/screens/main_screen.dart';
@@ -22,7 +23,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => UserAccessProvider())
+        ChangeNotifierProvider(create: (context) => UserAccessProvider()),
+        ChangeNotifierProvider(create: (context) => MapProvider())
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

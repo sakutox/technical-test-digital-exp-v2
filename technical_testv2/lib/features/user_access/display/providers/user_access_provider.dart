@@ -53,7 +53,7 @@ class UserAccessProvider with ChangeNotifier {
 
       if (userCreated is UserModel) {
         // ignore: use_build_context_synchronously
-        Navigator.of(context).pushReplacementNamed('/');
+        Navigator.of(context).pushReplacementNamed('/map_screen_clean_arq');
         return userCreation = true;
       } else {
         return userCreation;
@@ -87,7 +87,7 @@ class UserAccessProvider with ChangeNotifier {
 
     if (otpConfirmationReturn) {
       // ignore: use_build_context_synchronously
-      Navigator.of(context).pushReplacementNamed('/');
+      Navigator.of(context).pushReplacementNamed('/map_screen_clean_arq');
     } else {
       // ignore: use_build_context_synchronously
       Navigator.of(context)

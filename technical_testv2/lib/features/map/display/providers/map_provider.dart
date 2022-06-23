@@ -2,15 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:technical_testv2/features/map/data/repositories/change_camera_focus_repository_impl.dart';
-import 'package:technical_testv2/features/map/data/repositories/get_location_repository_impl.dart';
-import 'package:technical_testv2/features/map/data/repositories/set_current_position_repository_impl.dart';
-import 'package:technical_testv2/features/map/domain/repositories/change_camera_focus_repository.dart';
-import 'package:technical_testv2/features/map/domain/repositories/get_location_repository.dart';
-import 'package:technical_testv2/features/map/domain/repositories/set_current_position_repository.dart';
-import 'package:technical_testv2/features/map/domain/use_cases/change_camera_focus.dart';
-import 'package:technical_testv2/features/map/domain/use_cases/get_location.dart';
-import 'package:technical_testv2/features/map/domain/use_cases/set_current_position.dart';
+
 
 class MapProvider with ChangeNotifier {
   Marker location = const Marker(
@@ -34,9 +26,6 @@ class MapProvider with ChangeNotifier {
   late GoogleMapController googleMapController;
 
   Future<void> getLocation(Position location2) async {
-    GetLocationRepository repository = GetLocationRepositoryImpl(MapProvider());
-
-    await GetLocation(getLocationRepository: repository).call(location2);
     location = Marker(
         markerId: const MarkerId('value'),
         position: LatLng(location2.latitude, location2.longitude));
@@ -45,12 +34,7 @@ class MapProvider with ChangeNotifier {
   }
 
   Future<void> changeCameraFocus(Position location2) async {
-    ChangeCameraFocusRepository repository =
-        ChangeCameraFocusRepositoryImpl(MapProvider());
-
-    await ChangeCameraFocus(changeCameraFocusRepository: repository)
-        .call(location2);
-
+    
     cameraFocus = CameraPosition(
       target: LatLng(location2.latitude, location2.longitude),
       zoom: 17,
@@ -65,12 +49,6 @@ class MapProvider with ChangeNotifier {
   determinePosition(MapProvider mapProvider) async {
     bool serviceEnabled;
     LocationPermission permission;
-
-    SetCurrentPositionRepository repository =
-        SetCurrentPositionRepositoryImpl(MapProvider());
-
-    await SetCurrentPosition(setCurrentPositionRepository: repository)
-        .call(mapProvider);
 
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
