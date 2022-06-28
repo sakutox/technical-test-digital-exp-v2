@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+// ignore: depend_on_referenced_packages, implementation_imports
 import 'package:geolocator_platform_interface/src/models/position.dart';
 import 'package:technical_testv2/features/map/display/providers/map_provider.dart';
 import 'package:technical_testv2/features/map/domain/repositories/get_location_repository.dart';

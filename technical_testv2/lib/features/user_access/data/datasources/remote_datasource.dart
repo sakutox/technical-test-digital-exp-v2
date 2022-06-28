@@ -25,6 +25,7 @@ class RemoteDataSourceImpl implements RemoteDataSource {
     try {
       Map<String, dynamic> map = user.toMap();
 
+      // ignore: unused_local_variable
       final response =
           FirebaseConfig.db.collection('users').doc(user.uid).set(map);
       return status = true;
@@ -55,7 +56,7 @@ class RemoteDataSourceImpl implements RemoteDataSource {
       },
       codeSent: (String verificationId, int? resendToken) async {
         userAccessProvider.verificationId = verificationId;
-        print('verificationID: ${userAccessProvider.verificationId}');
+        // print('verificationID: ${userAccessProvider.verificationId}');
       },
       codeAutoRetrievalTimeout: (String verificationId) {},
     );

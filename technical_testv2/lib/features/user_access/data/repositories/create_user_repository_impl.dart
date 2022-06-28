@@ -11,6 +11,7 @@ class CreateUserInfoRepositoryImpl implements CreateUserInfoRepository {
   @override
   Future<Either<User, Map<String, dynamic>>> createUser(UserModel user) async {
     try {
+      // ignore: unused_local_variable
       final result = await dataSource.createUser(user);
       return left(user);
     } catch (e) {
