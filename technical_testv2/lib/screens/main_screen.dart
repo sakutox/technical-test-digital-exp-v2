@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:technical_testv2/features/user_access/display/providers/user_access_provider.dart';
 import 'package:technical_testv2/utils/utils.dart';
 
 class MainScreen extends StatefulWidget {
@@ -15,7 +13,7 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    UserAccessProvider provider = Provider.of<UserAccessProvider>(context);
+    // UserAccessProvider provider = Provider.of<UserAccessProvider>(context);
 
     final topPart = SizedBox(
       width: VariatedUtils.width(context) * 0.8,
