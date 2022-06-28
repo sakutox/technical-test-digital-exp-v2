@@ -1,6 +1,6 @@
 # Technical test digital experience version #2
  
-In this repository you'll find a project which contains multiple functionalities added such as log in with phone number using firebase as the main db.
+In this repository you'll find a project which contains multiple functionalities added such as log in with phone number using firebase as the main db. you'll find to versions of the app, one which is simpler you'll see more logic than anything and on features you'll see the same app but we're applying clean arquicture on the code, separating the logic from the views this was done trought provider as the middle agent between the logic and the views.
  
 Functionalities:
  
