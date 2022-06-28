@@ -19,6 +19,8 @@ class _PhoneAccessState extends State<PhoneAccess> {
     UserAccessProvider userAccessProvider =
         Provider.of<UserAccessProvider>(context);
 
+    bool clickChecker = false;
+
     final topPart = SizedBox(
       width: VariatedUtils.width(context) * 0.8,
       height: VariatedUtils.height(context) * 0.1,
@@ -68,15 +70,18 @@ class _PhoneAccessState extends State<PhoneAccess> {
                 userAccessProvider: userAccessProvider,
                 context: context);
           }
+          clickChecker = true;
         },
-        child: const Text(
-          "Continuar",
-          textAlign: TextAlign.center,
-          style: TextStyle(
-              fontSize: 20,
-              color: Color(0XFF033236),
-              fontFamily: 'AmazingSlabBold'),
-        ),
+        child: clickChecker
+            ? const CircularProgressIndicator()
+            : const Text(
+                "Continuar",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontSize: 20,
+                    color: Color(0XFF033236),
+                    fontFamily: 'AmazingSlabBold'),
+              ),
       ),
     );
 
