@@ -88,27 +88,31 @@ class OtpScreenCleanArquitecture extends StatelessWidget {
     );
 
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: appBar,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Container(
-            padding: EdgeInsets.all(VariatedUtils.width(context) * 0.08),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                imageDecoration,
-                VariatedUtils.personalizedSizedBox(30),
-                middlePartTexts,
-                VariatedUtils.personalizedSizedBox(30),
-                verificationCodeField,
-                VariatedUtils.personalizedSizedBox(30),
-                confirmOtpButton,
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
+        backgroundColor: Colors.white,
+        appBar: appBar,
+        body: userAccessProvider.codeSent == false
+            ? const Center(
+                child: CircularProgressIndicator(),
+              )
+            : SafeArea(
+                child: SingleChildScrollView(
+                  child: Container(
+                    padding:
+                        EdgeInsets.all(VariatedUtils.width(context) * 0.08),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        imageDecoration,
+                        VariatedUtils.personalizedSizedBox(30),
+                        middlePartTexts,
+                        VariatedUtils.personalizedSizedBox(30),
+                        verificationCodeField,
+                        VariatedUtils.personalizedSizedBox(30),
+                        confirmOtpButton,
+                      ],
+                    ),
+                  ),
+                ),
+              ));
   }
 }

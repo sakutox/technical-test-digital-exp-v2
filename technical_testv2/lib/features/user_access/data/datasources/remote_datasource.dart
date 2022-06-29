@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:technical_testv2/core/firebase_config/firebase_initialize_app.dart';
 import 'package:technical_testv2/features/user_access/display/providers/user_access_provider.dart';
 import '../models/user_model.dart';
@@ -18,7 +19,6 @@ abstract class RemoteDataSource {
 }
 
 class RemoteDataSourceImpl implements RemoteDataSource {
-  
   @override
   Future<bool> createUser(UserModel user) async {
     bool status = false;
@@ -55,6 +55,7 @@ class RemoteDataSourceImpl implements RemoteDataSource {
         if (e.code == 'invalid-phone-number') {}
       },
       codeSent: (String verificationId, int? resendToken) async {
+        userAccessProvider.codeSentVerification();
         userAccessProvider.verificationId = verificationId;
         // print('verificationID: ${userAccessProvider.verificationId}');
       },
@@ -82,6 +83,8 @@ class RemoteDataSourceImpl implements RemoteDataSource {
           userCredential, phoneNumber, userAccessProvider);
     } catch (e) {
       log('error on remote datasource verify number function: $e');
+      Fluttertoast.showToast(msg: '$e');
+      userAccessProvider.errorChecker = true;
     }
 
     return statusForProviderConfirmation;

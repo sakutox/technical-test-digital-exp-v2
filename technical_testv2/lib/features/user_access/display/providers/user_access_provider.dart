@@ -15,6 +15,8 @@ class UserAccessProvider with ChangeNotifier {
   String otpCode = '';
   String verificationId = '';
   String userUid = '';
+  bool codeSent = false;
+  bool errorChecker = false;
 
   Future<Map<String, dynamic>> verifyPhoneNumberProviderFunction(
       {required String phoneNumber,
@@ -35,6 +37,11 @@ class UserAccessProvider with ChangeNotifier {
       Fluttertoast.showToast(msg: '$verifyPhoneNumber');
       return verifyPhoneNumber;
     }
+  }
+
+  codeSentVerification() {
+    codeSent = true;
+    notifyListeners();
   }
 
   Future<bool> createUser(String name, String email, String phone, String uid,
@@ -71,6 +78,7 @@ class UserAccessProvider with ChangeNotifier {
       UserAccessProvider userAccessProvider,
       BuildContext context) async {
     bool otpConfirmationReturn = false;
+    bool errorCatch = false;
 
     try {
       OtpConfirmationRepositoryImpl repository =
@@ -83,12 +91,14 @@ class UserAccessProvider with ChangeNotifier {
       otpConfirmationReturn = otpConfirmation;
     } catch (e) {
       log('$e');
+      Fluttertoast.showToast(msg: '$e');
+      errorCatch = true;
     }
 
-    if (otpConfirmationReturn) {
+    if (otpConfirmationReturn && errorCatch == false) {
       // ignore: use_build_context_synchronously
       Navigator.of(context).pushReplacementNamed('/map_screen_clean_arq');
-    } else {
+    } else if (userAccessProvider.errorChecker == false) {
       // ignore: use_build_context_synchronously
       Navigator.of(context)
           .pushReplacementNamed('/register_screen', arguments: phoneNumber);
